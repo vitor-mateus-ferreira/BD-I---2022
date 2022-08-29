@@ -1,0 +1,71 @@
+1ª AULA - DESAFIO 1 - 22/08/2022
+
+CREATE DATABASE aula_bd;
+
+USE aula_bd;
+
+DROP DATABASE aula_bd;
+DROP DATABASE IF EXISTS aula_bd;
+
+/* Criar 02 bancos com mesmo nome - erro 1007: já há um banco com esse nome
+
+excluir um banco 2 vezes - erro 1008: não existe um banco de dados com esse nome
+
+excluir com o "if exists" - warning(s): 1008 não foi possível excluir a database, pois ela não existe */
+
+
+2ª AULA - DESAFIO 02 - 29/08/2022
+
+TABELAS PROJETO
+
+CREATE TABLE estado(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT
+,nome VARCHAR(255) NOT NULL UNIQUE 
+,sigla CHAR(2) NOT NULL UNIQUE
+,ativo CHAR(1) NOT NULL DEFAULT 'S'  
+);
+
+INSERT INTO estado (id,nome,sigla,ativo) VALUES(NULL,'PARANÁ','PR','S');
+
+INSERT INTO estado (id,nome,sigla,ativo) VALUES(NULL,'SÃO PAULO','SP','S');
+
+INSERT INTO estado (id,nome,sigla,ativo) VALUES(NULL,'ESPIRITO SANTO','ES','S');
+
+CREATE TABLE cidade(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT 
+,nome VARCHAR(255) NOT NULL
+,estado_id INT NOT NULL
+,ativo CHAR(1) NOT NULL DEFAULT 'S'
+,CHECK (ativo IN('S','N'))
+,FOREIGN KEY (estado_id) REFERENCES estado (id)
+);
+
+
+INSERT INTO cidade (nome,estado_id)
+VALUES ('PARANAVAÍ', '1');
+
+INSERT INTO cidade (nome,estado_id)
+VALUES ('SUMARÉ', '2');
+
+INSERT INTO cidade (nome,estado_id)
+VALUES ('VITÓRIA', '3');
+
+CREATE TABLE produto(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT
+,nome VARCHAR(255) NOT NULL UNIQUE
+,preco DECIMAL(8,2) NOT NULL
+,ativo CHAR(1) NOT NULL DEFAULT 'S'
+);
+
+INSERT INTO produto (id,nome, preco, ativo) VALUES(NULL,'ATM', 119,000.00,'S');
+
+INSERT INTO produto (id,nome, preco, ativo) VALUES(NULL,'LEITOR DE CARTÕES', 900.00, 'S');
+
+INSERT INTO produto (id,nome, preco, ativo) VALUES(NULL,'DIGITALIZADORA DE CHEQUES', 3000.00, 'S');
+
+
+SELECT id,nome,sigla,ativo FROM estado;
+
+SELECT id,nome,estado_id,ativo FROM cidade;
+
+SELECT id,nome,preco,ativo FROM produto;
